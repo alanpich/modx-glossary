@@ -6,7 +6,7 @@ switch($eventName) {
         /* do something else */
 
 								// Grab resource ID to forward to
-								$targetResId = $scriptProperties['glossaryPageId'];
+								$targetResId = $scriptProperties['resId'];
 								$chunkName = $scriptProperties['tpl'];
 
 								// Load the Glossary worker class
