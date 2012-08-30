@@ -7,6 +7,7 @@ switch($eventName) {
 
 								// Grab resource ID to forward to
 								$targetResId = $scriptProperties['glossaryPageId'];
+								$chunkName = $scriptProperties['tpl'];
 
 								// Load the Glossary worker class
 								$path = $modx->getOption('core_path').'components/glossary/';
@@ -19,7 +20,7 @@ switch($eventName) {
  							$res = $modx->resource;
 								if($res->get('id') != $targetResId){
 										$content = $res->get('content');
-										$content = $Glossary->linkifyContent($content,$targetResId);
+										$content = $Glossary->linkifyContent($content,$targetResId,$chunkName);
 										$res->set('content',$content);
 								};
 

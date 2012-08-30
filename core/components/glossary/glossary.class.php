@@ -55,7 +55,7 @@ public function getTerms(){
 
 
 
-public function linkifyContent( $content, $targetResId ){
+public function linkifyContent( $content, $targetResId, $chunkName ){
 		// Generate URL to target page
 		$target = $this->modx->makeUrl($targetResId,'web');
 		
@@ -63,10 +63,12 @@ public function linkifyContent( $content, $targetResId ){
 		$terms = $this->getTerms();
 		foreach($terms as $term){
 		
-			$link = $target.'#'.strtolower(str_replace(' ','-',$term['term']));
-			$pattern = '/('.$term['term'].')/';
-			$replace = '<a class="glossary-link" href="'.$link.'">$1</a>';
-			$content = preg_replace($pattern,$replace,$content);
+			$chunk = $this->modx->getChunk($chunkName,array(
+					'link' => $target.'#'.strtolower(str_replace(' ','-',$term['term'])),
+					'term' => $term['term']
+				));
+			
+			$content = str_replace($term['term'],$chunk,$content);
 		};
 		return $content;
 	}//
