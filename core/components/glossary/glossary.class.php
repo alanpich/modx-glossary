@@ -41,6 +41,36 @@ public function getGroupedTerms() {
 		
 		return $letters;		
 	}//
+	
+	
+	
+public function getTerms(){
+		$terms = $this->modx->getCollection('Term');
+		$retArray = array();
+		foreach($terms as $term){
+			$retArray[] = $term->toArray();
+		};
+		return $retArray;
+	}//
+
+
+
+public function linkifyContent( $content, $targetResId ){
+		// Generate URL to target page
+		$target = $this->modx->makeUrl($targetResId,'web');
+		
+		// Parse and create links for each term
+		$terms = $this->getTerms();
+		foreach($terms as $term){
+		
+			$link = $target.'#'.strtolower(str_replace(' ','-',$term['term']));
+			$pattern = '/('.$term['term'].')/';
+			$replace = '<a class="glossary-link" href="'.$link.'">$1</a>';
+			$content = preg_replace($pattern,$replace,$content);
+		};
+		return $content;
+	}//
+
 
 
 

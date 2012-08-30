@@ -13,8 +13,8 @@
 $path = $modx->getOption('core_path').'components/glossary/';
 if(!class_exists('Glossary')){ 
 		require $path.'glossary.class.php';
-		$Glossary = new Glossary($modx);
 };
+		$Glossary = new Glossary($modx);
 
 // Outputness
 $output = '';
@@ -47,7 +47,10 @@ foreach($letters as $letter => $terms){
 					$output.= '<a name="#'.$letter.'"></a>';
 					$output.= '<h4>'.$letter.'</h4>';
 					foreach($terms as $term){
-								$output.= $modx->getChunk($termTpl,$term);
+					   $params = array_merge($term,array(
+														'anchor' => strtolower(str_replace(' ','-',$term['term']))
+										));
+								$output.= $modx->getChunk($termTpl,$params);
 					};
 			};
 };
