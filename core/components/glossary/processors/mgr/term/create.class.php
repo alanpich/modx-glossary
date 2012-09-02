@@ -8,8 +8,8 @@ class GlossaryTermCreateProcessor extends modObjectCreateProcessor {
         $term = $this->getProperty('term');
         if (empty($term)) {
             $this->addFieldError('term',$this->modx->lexicon('glossary.term_err_ns_term'));
-        } else if ($this->doesAlreadyExist(array('name' => $name))) {
-            $this->addFieldError('name',$this->modx->lexicon('glossary.term_err_ae_term'));
+        } else if ($this->doesAlreadyExist(array('term' => $term))) {
+            $this->addFieldError('term',$this->modx->lexicon('glossary.term_err_ae_term'));
         }
         
         $explanation = $this->getProperty('explanation');
