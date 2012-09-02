@@ -65,7 +65,8 @@ public function linkifyContent( $content, $targetResId, $chunkName ){
 		
 			$chunk = $this->modx->getChunk($chunkName,array(
 					'link' => $target.'#'.strtolower(str_replace(' ','-',$term['term'])),
-					'term' => $term['term']
+					'term' => $term['term'],
+					'explanation' => $term['explanation']
 				));
 			
 			$content = str_replace($term['term'],$chunk,$content);

@@ -25,35 +25,47 @@ $letters = $Glossary->getGroupedTerms();
 // Show navigation list (if on)
 if((bool) $scriptProperties['showNav']){
 
-		$output.= '<div class="glossary-nav"><strong>Nav: </strong>';
-
+   // Prepare letter chunks
+		$tplLetters = '';
 		foreach($letters as $letter => $terms){
 					if(count($terms)>0){
-        $output.= '<span><a href="#'.$letter.'">'.$letter.'</a></span>';
-#					} else {
-#        $output.= '<span>'.$letter.'</span>';
+        $tplLetters.= $modx->getChunk($navItemTpl,array('letter' => $letter));
 					};
 		};
 
-		$output.= '</div>';
+		// Wrap letters in outer tpl
+		$output.= $modx->getChunk($navOuterTpl,array( 'letters' => $tplLetters ));
+
 };
 
 
 
 // Output all terms (grouped)
 $termTpl = $scriptProperties['termTpl'];
+$groupTpl = $scriptProperties['groupTpl'];
+$outerTpl = $scriptProperties['outerTpl'];
+$groupsHTML = '';
 foreach($letters as $letter => $terms){
 			if(count($terms)>0){
-					$output.= '<a name="#'.$letter.'"></a>';
-					$output.= '<h4>'.$letter.'</h4>';
+
+					// Prepare Terms HTML
+			  $termsHTML = '';
 					foreach($terms as $term){
 					   $params = array_merge($term,array(
 														'anchor' => strtolower(str_replace(' ','-',$term['term']))
 										));
-								$output.= $modx->getChunk($termTpl,$params);
+								$termsHTML.= $modx->getChunk($termTpl,$params);
 					};
+
+					// Prepare letter wrapper HTML
+					$groupsHTML .= $modx->getChunk($groupTpl,array(
+											'items'=>$termsHTML,
+											'letter' => $letter
+										));
 			};
 };
 
+// Add groups to outer wrapper
+$output .= $modx->getChunk($outerTpl,array('groups'=>$groupsHTML));
 
 return $output;

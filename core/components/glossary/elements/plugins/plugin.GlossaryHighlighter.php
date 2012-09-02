@@ -13,8 +13,8 @@ switch($eventName) {
 								$path = $modx->getOption('core_path').'components/glossary/';
 								if(!class_exists('Glossary')){ 
 										require $path.'glossary.class.php';
-										$Glossary = new Glossary($modx);
 								};
+								$Glossary = new Glossary($modx);
 
 								// Pass page content to worker method
  							$res = $modx->resource;
